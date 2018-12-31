@@ -6,4 +6,8 @@ CONFIG -= qt
 SOURCES += \
     main.cpp \
     uglynumber.cpp \
-    maximumwineprice.cpp
+    maximumwineprice.cpp \
+    timer.cpp
+
+HEADERS += \
+    timer.h

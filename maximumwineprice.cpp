@@ -5,9 +5,9 @@ unsigned int winePrice(unsigned int *pStart, unsigned int *pLeftMost, unsigned i
 
 #define SPEED
 #ifdef SPEED
-unsigned int Cache[50][50];
+unsigned int MaximumWinePriceCache[50][50];
 #else
-unsigned int Cache[5][5];
+unsigned int MaximumWinePriceCache[5][5];
 #endif
 int MaximumWinePrice_Demo()
 {
@@ -18,13 +18,13 @@ int MaximumWinePrice_Demo()
 #else
     unsigned int p[5] = { 2, 3, 5 , 1, 4 };
 #endif
-    unsigned int NCacheElements = sizeof(Cache) / sizeof(unsigned int);
-    unsigned int NEachRowElements = sizeof(Cache[0]) / sizeof(unsigned int);
-    printf("NElements %d - ", NCacheElements);
+    unsigned int NMaximumWinePriceCacheElements = sizeof(MaximumWinePriceCache) / sizeof(unsigned int);
+    unsigned int NEachRowElements = sizeof(MaximumWinePriceCache[0]) / sizeof(unsigned int);
+    printf("NElements %d - ", NMaximumWinePriceCacheElements);
     printf("Each row %d \r\n", NEachRowElements);
-    for(unsigned int i = 0; i < NCacheElements; i++)
+    for(unsigned int i = 0; i < NMaximumWinePriceCacheElements; i++)
     {
-        Cache[i / NEachRowElements][i % NEachRowElements] = 0;
+        MaximumWinePriceCache[i / NEachRowElements][i % NEachRowElements] = 0;
     }
 
     printf("price: %d\r\n", winePrice(p, p, p + sizeof(p) / sizeof(unsigned int) - 1, 1));
@@ -41,11 +41,11 @@ unsigned int winePrice(unsigned int *pStart, unsigned int *pLeftMost, unsigned i
 {
     long be = pLeftMost - pStart;
     long en = pRightMost - pStart;
-    if(Cache[be][en] == 0)
+    if(MaximumWinePriceCache[be][en] == 0)
     {
         if(pRightMost == pLeftMost)
         {
-            Cache[be][en] = *pLeftMost * yearMultiplier;
+            MaximumWinePriceCache[be][en] = *pLeftMost * yearMultiplier;
         }
         else
         {
@@ -54,8 +54,8 @@ unsigned int winePrice(unsigned int *pStart, unsigned int *pLeftMost, unsigned i
             unsigned int nextYearMultiplier = yearMultiplier + 1;
             unsigned int leftPrice = winePrice(pStart, pLeftMost + 1, pRightMost, nextYearMultiplier) + leftmost * yearMultiplier;
             unsigned int rightPrice = winePrice(pStart, pLeftMost, pRightMost - 1, nextYearMultiplier) + rightmost * yearMultiplier;
-            Cache[be][en] = max(leftPrice,rightPrice);
+            MaximumWinePriceCache[be][en] = max(leftPrice,rightPrice);
         }
     }
-    return Cache[be][en];
+    return MaximumWinePriceCache[be][en];
 }
